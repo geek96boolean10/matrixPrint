@@ -12,7 +12,7 @@ while True:
 	data = []
 	for x in range(-200, 200):
 		data.append([x/10, 10 * math.sin(.25 * x/10 + i)])
-	screen.quickplot(data)
+	screen.pnplot(data)
 	screen.draw()
 	i += .1
 	time.sleep(1)

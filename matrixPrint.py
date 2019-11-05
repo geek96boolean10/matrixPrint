@@ -125,6 +125,21 @@ class printer:
 		for x in range(0, me.m_width):
 			me.set(x, horiz, "=")
 
+	# same as quickplot but uses - for negative y-values and + otherwise
+	def pnplot(me, data: list):
+		ext = me.dataExtrema(data)
+		me.write(str(ext))
+		x_scale = float(me.m_width) / (ext[1] - ext[0])
+		y_scale = float(me.m_height) / (ext[3] - ext[2])
+		me.write(str(x_scale) + ", " + str(y_scale))
+		me.clr(" ")
+		horiz = me.m_height - (0 - ext[2]) * y_scale
+		for x in range(0, me.m_width):
+			me.set(x, horiz, "=")
+		for [x, y] in data:
+			dot = "+" if y > 0 else "-"
+			me.set((x - ext[0]) * x_scale , me.m_height - ((y - ext[2]) * y_scale ), dot)
+
 	# process execution variables
 	# def getArgv(index: int, default = "unspecified"):
 		# index += 1 # selects first argument rather than the file
