@@ -21,7 +21,7 @@ class printer:
 
 	def erase(me, keep: int = 0):
 		#global tail_output
-		tail_output = tail_output[0:keep]
+		me.tail_output = me.tail_output[0:keep]
 
 	# initializes necessary variables for running on different platforms
 	def init(me, os: str):

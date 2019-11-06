@@ -9,10 +9,11 @@ screen = mP.printer(os, int(w), int(h))
 i = 0
 
 while True:
+	screen.erase(2)
 	data = []
 	for x in range(-200, 200):
 		data.append([x/10, 10 * math.sin(.25 * x/10 + i)])
 	screen.pnplot(data)
 	screen.draw()
 	i += .1
-	time.sleep(1)
+	time.sleep(.1)
