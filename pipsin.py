@@ -16,10 +16,10 @@ while True:
 	screen.erase(2)
 	data = []
 	for x in range(-200, 200):
-		data.append([x/10, 10 * math.sin(.25 * x/10 + i)])
+		data.append([x/10, 10 * math.sin(.25 * x/10 + 5 * math.sin(i))])
 	screen.pnplot(data)
 	smol.pnplot(data)
 	a.pip(screen, [30,7,120,31], .667, alpha=True)
 	screen.draw()
-	i += .1
+	i += .02
 	time.sleep(.1)
