@@ -3,27 +3,38 @@ import os
 import math
 import sys
 
+#prints a 2D matrix of characters to screen
 class printer:
 
-	matrix_rows = []
-	m_width = 30
-	m_height = 10
-	offset = [0,0]
-
-	tail_output = [""]
-	tail_visible = 10
+	def __init__(self, os: str, width: int, height: int, silent: bool = False):
+		# instantiate class variables
+		self.silence = silent
+		self.matrix_rows = []
+		self.m_width = 30
+		self.m_height = 10
+		self.offset = [0,0]
+		self.tail_output = [""]
+		self.tail_visible = 10
+		
+		self.init(os)
+		self.size(width, height)
+		self.off([5,2])
 
 	os_clear_cmd = ""
 
 	def write(me, output: str):
 		#global tail_output
-		me.tail_output.insert(0, output)
+		if me.silence == False:
+			me.tail_output.insert(0, str(output))
 
 	def erase(me, keep: int = 0):
 		#global tail_output
 		me.tail_output = me.tail_output[0:keep]
 
-	# initializes necessary variables for running on different platforms
+	def suppress(me, quiet: bool = True):
+		me.silence = quiet
+
+	# initializes necessary variables for running on different platforms.
 	def init(me, os: str):
 		#global os_clear_cmd
 		if os == "windows" or os == "ms" or os == "msdos":
@@ -49,11 +60,9 @@ class printer:
 		me.tail_visible = max_tail
 
 	# resets all on-matrix values to empty or a provided character.
-	def clr(me, fill: chr = " "):
-		rows = len(me.matrix_rows)
-		cols = len(me.matrix_rows[0])
-		for y in range(0, rows):
-			for x in range(0, cols):
+	def clr(me, fill: str = " "):
+		for y in range(0, me.m_height):
+			for x in range(0, me.m_width):
 				me.matrix_rows[y][x] = str(fill)[0]
 
 	# prints the matrix out into the standard output.
@@ -73,6 +82,8 @@ class printer:
 				print(me.os_clear_cmd)
 		except:
 			pass
+		if me.silence == True:
+			me.erase()
 		print( mat )
 		print("  ---")
 		tails = len(me.tail_output)
@@ -91,7 +102,14 @@ class printer:
 			#write("out of bounds: " + str(x) + ", " + str(y))
 			pass
 		else:
-			me.matrix_rows[int(y)][int(x)] = value[0]
+			me.matrix_rows[int(y)][int(x)] = str(value)[0]
+	
+	# get the value of a pixel
+	def get(me, x: float, y: float):
+		if x < 0 or x >= me.m_width or y < 0 or y >= me.m_height:
+			return " "
+		else:
+			return me.matrix_rows[int(y)][int(x)]
 
 	# finds the adjusted min and max of a set of [x,y] data
 	def dataExtrema(me, data: list):
@@ -145,8 +163,5 @@ class printer:
 		# index += 1 # selects first argument rather than the file
 		# return sys.argv[index] if len(sys.argv)-1 >= index else default
 
-	def __init__(self, os: str, width: int, height: int):
-		self.init(os)
-		self.size(width, height)
-		self.off([5,2])
+	
 

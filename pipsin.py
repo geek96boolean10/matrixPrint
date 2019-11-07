@@ -4,19 +4,22 @@ import sys
 import math
 import time
 
-[call, os, w, h] = sys.argv[0:4]
+[call, os] = sys.argv[0:2]
+[w, h] = [180, 45]
 screen = printer(os, int(w), int(h))
 a = artist(screen)
+smol = printer(os, 120, 31, silent=True)
 
 i = 0
 
 while True:
-	#screen.erase(2)
+	screen.erase(2)
 	data = []
 	for x in range(-200, 200):
 		data.append([x/10, 10 * math.sin(.25 * x/10 + i)])
 	screen.pnplot(data)
-	a.line([0,0], [4,4], "a")
+	smol.pnplot(data)
+	a.pip(screen, [30,7,120,31], .667, alpha=True)
 	screen.draw()
 	i += .1
 	time.sleep(.1)
