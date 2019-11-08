@@ -6,6 +6,7 @@ import sys
 #prints a 2D matrix of characters to screen
 class printer:
 
+	#arg:silent prevents this printer from collecting any 'write' output.
 	def __init__(self, os: str, width: int, height: int, silent: bool = False):
 		# instantiate class variables
 		self.silence = silent
@@ -20,7 +21,7 @@ class printer:
 		self.size(width, height)
 		self.off([5,2])
 
-	os_clear_cmd = ""
+	os_clear_cmd = "" # this is global across all instances
 
 	def write(me, output: str):
 		#global tail_output
