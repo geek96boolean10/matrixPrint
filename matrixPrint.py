@@ -95,6 +95,13 @@ class printer:
 				print(".")
 		print("  ---")
 
+	# returns a string that represents the matrix at 1:1 scale, drawn at the origin
+	def view(me):
+		mat = ""
+		for row in range(0, len(me.matrix_rows)):
+			mat += ("".join(me.matrix_rows[row]) + "\n")
+		return mat
+
 	########------- END INITIALIZATIONS, BEGIN PROGRAMS -------########
 
 	# sets a single 'pixel' of the matrix

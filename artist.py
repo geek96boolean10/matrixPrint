@@ -1,12 +1,12 @@
 import math
-from matrixPrint import printer 
+from .matrixPrint import printer 
 
 # forcefully edits a 2D matrix to display advanced graphics options
 class artist:
-	canvas = ""
+	canvas: printer = None
 	
 	# requires a canvas that this artist normally paints on
-	def __init__(me, mycanvas: printer):
+	def __init__(me, mycanvas: printer = None):
 		global canvas
 		canvas = mycanvas
 		
