@@ -25,7 +25,7 @@ class printer:
 
 	def write(me, output: str):
 		#global tail_output
-		if me.silence == False:
+		if me.silence == False and output != "" and output != "\n":
 			me.tail_output.insert(0, str(output))
 
 	def erase(me, keep: int = 0):
@@ -88,8 +88,9 @@ class printer:
 		print( mat )
 		print("  ---")
 		tails = len(me.tail_output)
-		for line in me.tail_output[0:min(tails, me.tail_visible)]:
-			print("> " + line)
+		allowed = me.tail_output[0:min(tails, me.tail_visible)]
+		for line in range(0, len(allowed)):
+			print((">|" if line == 0 else "-|") + allowed[line])
 		if tails < me.tail_visible:
 			for empty in range(0, me.tail_visible - tails):
 				print(".")
