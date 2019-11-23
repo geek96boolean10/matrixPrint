@@ -39,12 +39,12 @@ class artist:
 	# does not handle multiline.
 	# returns the number of un-drawn characters
 	def text(me, s:str, origin:list, maxwidth:int=-1, maxheight:int=1):
-		if maxwidth > -1 and maxheight < 1:
-			return # this is a skippable print; nothing will be visible
 		charsleft = len(s)
 		y = origin[1]
 		while charsleft > 0:
 			if y >= me.canvas.m_height or charsleft <= 0:
+				break # exit while
+			if maxheight > 0 and y-origin[1] > maxheight:
 				break # exit while
 			for x in range(origin[0], origin[0] + (len(s) if maxwidth < 1 else min(len(s), maxwidth))):
 				if x < me.canvas.m_width and charsleft > 0:
@@ -58,4 +58,13 @@ class artist:
 			return charsleft
 		return 0
 
-		
+	# prints a multiline string, one line per row, cropping the end.
+	# returns array of un-drawn characters, one int per line
+	def texts(me, s:str, origin:list):
+		ss = s.split("\n")
+		#print(ss)
+		left = [0]*len(ss)
+		for i in range(0, len(ss)):
+			left[i] = me.text(ss[i], [origin[0], origin[1]+i], maxwidth=-1, maxheight=1)
+		#print(left)
+		return left

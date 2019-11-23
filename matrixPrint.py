@@ -16,6 +16,7 @@ class printer:
 		self.offset = [0,0]
 		self.tail_output = [""]
 		self.tail_visible = 10
+		self.tail_flip:bool = True # T:latest in middle, F: latest at bottom
 		
 		self.init(os)
 		self.size(width, height)
@@ -94,8 +95,13 @@ class printer:
 		print("  ---")
 		tails = len(me.tail_output)
 		allowed = me.tail_output[0:min(tails, me.tail_visible)]
-		for line in range(0, len(allowed)):
-			print((">|" if line == 0 else "-|") + allowed[line])
+
+		if me.tail_flip:
+			for line in range(0, len(allowed)):
+				print((">|" if line == 0 else "-|") + allowed[line])
+		else:
+			for line in range(len(allowed)-1, -1, -1):
+				print((">|" if line == 0 else "-|") + allowed[line])
 		if tails < me.tail_visible:
 			for empty in range(0, me.tail_visible - tails):
 				print(".")
