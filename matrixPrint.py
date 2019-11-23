@@ -23,6 +23,11 @@ class printer:
 
 	os_clear_cmd = "" # this is global across all instances
 
+	def writeLines(me, output:str):
+		l = output.split("\n")
+		for i in l:
+			me.write(i)
+
 	def write(me, output: str):
 		#global tail_output
 		if me.silence == False and output != "" and output != "\n":
@@ -70,9 +75,9 @@ class printer:
 	def draw(me):
 		mat = ""
 		for y in range(0, me.offset[1]):
-			mat += " \n" if y < me.offset[1]-1 else (" " * (me.offset[0]-1) + "+--\n")
+			mat += " \n" if y < me.offset[1]-1 else (" " * (me.offset[0]-1) + "+----\n")
 		for row in range(0, len(me.matrix_rows)):
-			if row < 2:
+			if row < 2 and me.offset[0] > 0:
 				mat += (" " * (me.offset[0]-1)) + "|" + "".join(me.matrix_rows[row]) + "\n"
 			else:
 				mat += (" " * me.offset[0]) + "".join(me.matrix_rows[row]) + "\n"
