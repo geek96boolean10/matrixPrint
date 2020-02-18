@@ -17,6 +17,7 @@ class printer:
 		self.tail_output = [""]
 		self.tail_visible = 10
 		self.tail_flip:bool = True # T:latest in middle, F: latest at bottom
+		self.header = "----"
 		
 		self.init(os)
 		self.size(width, height)
@@ -59,6 +60,7 @@ class printer:
 	# sets the screen's dimensions and clears it.
 	def size(me, columns: int, rows: int, max_tail: int = 10):
 		#global m_height, m_width, tail_visible
+		me.matrix_rows.clear()
 		me.m_height = rows
 		me.m_width = columns
 		for row in range(0, rows):
@@ -76,9 +78,9 @@ class printer:
 	def draw(me):
 		mat = ""
 		for y in range(0, me.offset[1]):
-			mat += " \n" if y < me.offset[1]-1 else (" " * (me.offset[0]-1) + "+----\n")
+			mat += " \n" if y < me.offset[1]-1 else (" " * (me.offset[0]-1) + "+" + str(me.header) + "\n")
 		for row in range(0, len(me.matrix_rows)):
-			if row < 2 and me.offset[0] > 0:
+			if row < 3 and me.offset[0] > 0:
 				mat += (" " * (me.offset[0]-1)) + "|" + "".join(me.matrix_rows[row]) + "\n"
 			else:
 				mat += (" " * me.offset[0]) + "".join(me.matrix_rows[row]) + "\n"
@@ -118,6 +120,12 @@ class printer:
 
 	# sets a single 'pixel' of the matrix
 	def set(me, x: float, y: float, value: str):
+
+		# FOR DEBUG INTERRUPT
+		if x == 14 and y == 1 and value == "D":
+			#raise EOFError
+			pass
+
 		if x < 0 or x >= me.m_width or y < 0 or y >= me.m_height:
 			#write("out of bounds: " + str(x) + ", " + str(y))
 			pass
